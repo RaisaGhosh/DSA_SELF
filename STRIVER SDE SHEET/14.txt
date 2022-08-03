@@ -1,0 +1,33 @@
+Using Moore Voting Algorithm
+
+This algorithm works because it works on the fact that the number of times the majority element appears is always > ⌊n / 2⌋ and there is always a majority element in the given array.
+
+The intuition behind this algorithm is simple.
+
+Here we update the variable storing the majority_element when count = 0, i.e. , everytime we see that ,
+the number of times minority elements appear  = the number of times the majority element appears ,
+which means the majority element is no longer the majority element for the part of the array traversed.
+
+So by the time we traverse the entire array, the element which appears > the no. of times the other elements appear is inside the majority_element variable, which is our required answer.
+
+```
+class Solution {
+public:
+    int majorityElement(vector<int>& nums) {
+        
+        int majority_element;   //line 1
+        int count = 0;      //line 2
+        
+        for(auto it : nums){    //line 3
+            if(count == 0) majority_element = it;   //line 4 //updating if no. of majority elements =  no. of minority elements 
+            
+            if(it == majority_element) ++count;     //line 5 // adding 1 to count if the current element = majority element
+            else --count;       //line 6 // subtracting 1 to count if the current element != majority element. Doing this to make sure that the no. of times majority element appear is always > the no. of times the other elements appear
+        }
+        
+        return majority_element;        //line 7
+          
+    }
+};
+```
+
