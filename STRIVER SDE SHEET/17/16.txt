@@ -1,0 +1,75 @@
+The first solution is a extension of the recursive solution which is solved using dynamic programming. A dp table is maintained to store the results of overlapping subproblems.
+
+```
+class Solution {
+public:
+    
+    int countUniquePaths(int i,int j,int m,int n,vector<vector<int> > &dp){
+        
+        if(i>=m || j>=n) return 0;
+        
+        if(i == m-1 || j == n-1) return 1;
+        
+        
+        if(dp[i][j] != -1) return dp[i][j];
+        else   return dp[i][j] = countUniquePaths(i+1,j,m,n,dp) + countUniquePaths(i,j+1,m,n,dp);
+        
+    }
+    
+    int uniquePaths(int m, int n) {
+        
+        vector<vector<int> > dp( m , vector<int> (n, -1));
+        
+        int c = countUniquePaths(0,0,m,n,dp);
+        
+        return c;
+    }
+};
+```
+
+The most optimal solution is by using combinations.
+In a m * n matrix , to go from start to end , the robot has to take (m-1) steps down and (n-1) steps to the right.
+Thus the total number of steps the robot has to take is (m-1)+(n-1) steps, i.e. , (m+n-2) steps.
+Now from this total (m+n-2) steps we can have (m+n-2)C(m-1) ways to go down or (m+n-2)C(n-1) ways to go right.
+Thus, simply finding (m+n-2)C(m-1) or (m+n-2)C(n-1) will give us the result.
+
+Now to find the combination we make use of the observation that nCr has r no. of elements multiplied on top and 1 to r multiplied in the bottom.
+
+For example, 10C3 = (10*9*8)/(3*2*1) , so we make use of this to get the answer in linear time complexity.
+
+```
+class Solution {
+public:
+    
+    double findCombination(int n,int r){
+        
+        if(r==0 || n==r) return 1;
+        
+        if(r==1) return n;
+        
+        long double ans = 1;
+        
+        while(r>=1){
+            
+            ans = ans * n / r;
+            
+            --n;
+            --r;
+        }
+        
+        return ans;
+    }
+    
+    int uniquePaths(int m, int n) {
+        
+        if(m>=n)
+            return (int)findCombination(m+n-2,n-1);
+        else
+            return (int)findCombination(m+n-2,m-1);
+        
+    }
+};
+```
+
+Time Complexity : O(m-1) or O(n-1)
+Space Complexity : O(1)

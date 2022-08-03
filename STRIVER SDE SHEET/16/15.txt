@@ -1,0 +1,63 @@
+To understand this algorithm first we need to understand the Moore Voting Algorithm, you can check it out from any online resource or check this out where I have written about what I understood of it :
+https://leetcode.com/problems/majority-element/discuss/2369859/O(n)-and-O(1)-Solution(7-lines)
+
+This algorithm works because at max we can have 2 majority elements or we can have no majority element at all!
+
+So this algorithm is just an extension of the previous algorithm. Here we are keeping track of the 2 elements that appear more than the no. of times the other elements appear in the array.
+Here everytime we find an element that's not equal to the current majority element we try to balance out the majority element with that and thus we decrement the count1 and count2 variables.
+Also whenever count1 or count2 is 0, it simply implies that the till that part of the array traversed the no. of the majority element 1 or the majority element 2 is equal to the no. of the other elements in the array upto that point.
+
+An example dry run for better understanding:
+20220803_160046.jpg
+
+```
+class Solution {
+public:
+    vector<int> majorityElement(vector<int>& nums) {
+        
+        int n = nums.size();
+        
+        vector<int> result;
+        
+        int num1 = -1 , num2 = -1 , count1 = 0 , count2 = 0;
+        
+        for(auto it : nums){
+            
+            if(num1 == it) ++count1;
+            else if(num2 == it) ++count2;
+            else if(count1 == 0){
+                num1 = it;
+                count1 = 1;
+            }
+            else if(count2 == 0){
+                num2 =it;
+                count2 = 1;
+            }
+            else{
+                --count1;
+                --count2;
+            }
+            
+        }
+        
+        count1 = 0;
+        count2 = 0;
+        
+        for(auto it : nums){
+            
+            if(it == num1) ++count1;
+            else if(it == num2) ++count2;
+            
+        }
+        
+        if(count1>(n/3)) result.push_back(num1);
+        if(count2>(n/3)) result.push_back(num2);
+        
+        return result;
+        
+    }
+};
+```
+
+Time Complexity. : O(n) + O(n)
+Space COmplexity : O(1)

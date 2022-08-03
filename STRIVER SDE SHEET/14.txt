@@ -1,33 +1,56 @@
-Using Moore Voting Algorithm
+This solution is based on simple math:
 
-This algorithm works because it works on the fact that the number of times the majority element appears is always > ⌊n / 2⌋ and there is always a majority element in the given array.
+Suppose we have to find 2^10
 
-The intuition behind this algorithm is simple.
+So 2^10 can be written as (2 * 2) ^ 5 = 4 ^ 5
+	 4 ^ 5 can be written as 4 * 4^4
+	 4^4  can be written as (4 * 4) ^ 2 = 16 ^ 2
+	 16^2 can be written as (16 * 16) ^ 1 = 256 ^ 1
+	 256^1 can be written as 256 * 256^0
+	 256^0 can be written as 1
+	 
+So if we put back the values one by one , 2^10 = 1024
 
-Here we update the variable storing the majority_element when count = 0, i.e. , everytime we see that ,
-the number of times minority elements appear  = the number of times the majority element appears ,
-which means the majority element is no longer the majority element for the part of the array traversed.
-
-So by the time we traverse the entire array, the element which appears > the no. of times the other elements appear is inside the majority_element variable, which is our required answer.
+Now here everytime we see n%2 = 0, answer = (x * x) ^ (n/2)
+														else, answer = x * (x ^ (n-1))
+														
+This is the simple mathematical concept that we can implement here using recursion!
 
 ```
 class Solution {
 public:
-    int majorityElement(vector<int>& nums) {
+    double myPow(double x, int n) {
         
-        int majority_element;   //line 1
-        int count = 0;      //line 2
+        if(n==0) return 1;      //anything to the power 0 is 1
         
-        for(auto it : nums){    //line 3
-            if(count == 0) majority_element = it;   //line 4 //updating if no. of majority elements =  no. of minority elements 
-            
-            if(it == majority_element) ++count;     //line 5 // adding 1 to count if the current element = majority element
-            else --count;       //line 6 // subtracting 1 to count if the current element != majority element. Doing this to make sure that the no. of times majority element appear is always > the no. of times the other elements appear
+        if(x==1 || n==1) return x;  //1 to the power anything = 1 or x to the power 1 = x
+        
+        double ans = 1;
+        
+        long long int a = abs(n);   //since int range is from -2147483648 to 2147483647, so it can't store absolute value of -2147483648
+        
+        if(n<0){    //as 2^(-2) = 1/2^2
+            if(a%2 == 0) ans = 1/myPow(x*x,a/2);
+            else ans = 1/(x * myPow(x,a-1));
+        }
+        else{
+            if(a%2 == 0) ans = myPow(x*x,a/2);
+            else ans = x * myPow(x,a-1);
         }
         
-        return majority_element;        //line 7
-          
+        return ans;
+        
     }
 };
 ```
 
+Alternatively we could've also used for more simplicity:
+```
+if(n<0)   x=1/x;
+
+ if(a%2 == 0) ans = myPow(x*x,a/2);
+else ans = x * myPow(x,a-1);
+```
+
+Time Complexity. : O(log n)
+Space COmplexity : O(1)
