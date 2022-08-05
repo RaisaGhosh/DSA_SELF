@@ -1,0 +1,96 @@
+We can solve this problem using a slight modification in the merge part of merge sort.
+
+So the steps will include:
+* Find the middle of the array
+* Call mergeSort recursively for left half(low to middle)
+* Call mergeSort recursively for the right half(middle+1 to high)
+* Count the no. of reverse pairs
+* Merge the 2 halves of the array
+
+Before merging the left and the right subarray, we have to count the reverse pairs.
+
+Here's how we can do that:
+* Take 2 pointer i and j such that i points to the start of the left subarray(low) and j points to the start of the right subarray(mid+1)
+* Initialise a count variable as 0 , count = 0
+* Keep the i pointer fixed and keep incrementing j as long as arr[i] > (2 * arr[j])
+* If j goes out of bounds or arr[i] <= (2 * arr[j]) , increment i , update count = count + elements on the left side of the current j's position , i.e. , count = count + (j-(mid+1)) and repeat the above step. (Here, we increment count by j-(mid+1) because as each of the sub-array is sorted in itself, if some element at the index i, i.e. , arr[i] is greater than 2 * arr[j], then it has to be greater than twice of all elements that are less than arr[j], i.e. ,  it has be greater than 2 * arr[k] , for all k>=mid+1 and k<j)
+* Repeat the above 2 steps until i is out of bounds, i.e. , i>mid
+* Now merge the 2 halves of the array as usual and at the end of that return count
+
+(here we are counting in the merge function itself and not creating a separate function because the time limit exceeds in that case as the time to push the function into the system stack, execute it and then pop it, alltogether takes too much time)
+
+```
+class Solution {
+public:
+    
+    int merge(vector<int>& nums,int low,int mid,int high){
+        
+        int i = low, j = mid+1;
+        int arr[high-low+1];
+        int k=0;
+        
+        int count = 0;
+        
+        for(i = low;i<=mid;++i){
+            while(j<=high && nums[i]> 2LL * nums[j])
+                ++j;
+            count = count + (j-(mid+1));
+        }
+        
+        i = low;
+        j = mid+1;
+        
+        while(i<=mid && j<=high){
+            if(nums[i]<=nums[j]) arr[k++] = nums[i++];
+                
+            else arr[k++] = nums[j++];
+        }
+        
+        while(i<=mid){
+            arr[k++] = nums[i++];
+        }
+        
+        while(j<=high){
+            arr[k++] = nums[j++];  
+        }
+        
+        k = 0;
+        
+        for(i = low;i<=high;++i){
+            nums[i] = arr[k++];
+        }
+        
+        return count;
+        
+    }
+    
+    
+    int mergeSort(vector<int>& nums,int low,int high){
+        
+        if(low<high){
+            
+            int mid = (low+high)/2;
+            
+            int x = mergeSort(nums,low,mid) + mergeSort(nums,mid+1,high);
+            
+            
+            // int z = countPairs(nums,low,mid,high); //not using a separate function as time limit exceeds
+            
+            int y = merge(nums,low,mid,high);
+            
+            return (x+y);
+        }
+        
+        return 0;
+        
+    }
+    
+    int reversePairs(vector<int>& nums) {
+        
+        return mergeSort(nums,0,nums.size()-1);
+    }
+};
+```
+
+Time Complexity. : O(n * log n ) + O(n) + O(n)
+Space Complexity. : O(n)
