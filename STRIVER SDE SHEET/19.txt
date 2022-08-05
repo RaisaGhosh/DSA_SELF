@@ -1,0 +1,67 @@
+Using Brute force
+```
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+       
+        int ind1=-1,ind2=-1;
+        
+        vector<int> ans;
+        
+        for(int i=0;i<nums.size()-1;++i){
+            int x = target - nums[i];
+            ind1 = i;
+            for(int j=i+1;j<nums.size();++j){
+                if(nums[j]==x){
+                    ind2 = j;
+                    break;
+                }
+            }
+            if(ind2!=-1){
+                ans.push_back(ind1);
+                ans.push_back(ind2);
+                break;
+            }
+        }
+        
+        return ans;
+        
+    }
+};
+```
+Time Complexity. : O(n^2)
+Space Complexity. : O(1)
+
+
+OR
+
+Here we are using the concept that if 2 elements that add up to the target are present in the array, then on linearly traversing when we reach to the second element that adds up to the target, the first element has already added to the unordered map along with its index.
+
+```
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        
+        vector<int> ans;
+        
+        unordered_map<int,int> hashMap;
+        
+        for(int i = 0 ; i< nums.size() ; ++i){
+            if(hashMap.find(target-nums[i]) != hashMap.end()){ //if found will never point to the end of the map
+                ans.push_back(hashMap[target-nums[i]]);
+                ans.push_back(i);
+                break;
+            }
+            else{
+                hashMap[nums[i]] = i;
+            }
+        }
+        
+        return ans;
+        
+    }
+}
+```
+
+Time Complexity. : O(n)
+Space Complexity. : O(n)
