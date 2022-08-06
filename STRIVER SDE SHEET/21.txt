@@ -1,0 +1,39 @@
+PLEASE HELP ME WITH THIS!
+
+I used the below code but I don't really know what is happening, since the same code is giving TLE but then after multiple submits with TLE ,it is getting accepted.
+
+```
+class Solution {
+public:
+    int longestConsecutive(vector<int>& nums) {
+        
+        set<int> hashSet;
+        
+        int longestConsecutiveSequence = 0; 
+        
+        for(auto it : nums){
+            hashSet.insert(it);
+        }
+        
+        for(auto it : nums){
+            
+            if(!hashSet.count(it-1)){
+                
+                int count = 1;
+                
+                while(hashSet.count(it+count)) ++count;
+                
+                longestConsecutiveSequence = max(count,longestConsecutiveSequence);
+                
+            }
+            
+        }
+        
+        return longestConsecutiveSequence;
+    }
+};
+```
+
+I used the most optimal solution but it still gives:
+Runtime: 2815 ms, faster than 5.00% of C++ online submissions for Longest Consecutive Sequence.
+Memory Usage: 51.3 MB, less than 18.78% of C++ online submissions for Longest Consecutive Sequence.
