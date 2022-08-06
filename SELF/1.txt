@@ -1,0 +1,17 @@
+```
+class Solution {
+public:
+    vector<int> runningSum(vector<int>& nums) {
+        
+        vector<int> answer;     //line 1
+        int x = 0;      //line 2
+        
+        for(auto it : nums){        //line 3
+            answer.push_back(x = x+it);     //line 4
+        }
+        
+        return answer;      //line 5
+        
+    }
+};
+```
