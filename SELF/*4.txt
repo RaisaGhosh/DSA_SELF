@@ -1,3 +1,10 @@
+Here linearly we traverse the array and everytime we keep add the current index number of the array to the sum. If sum - k is already present in the array then that means that k is a subarray sum because if (sum - k) = x then (sum - x) = k and since x is already a subarray sum the rest of the array upto the current index has to add upto k since sum = x+k
+So the number of ways till the current index x can obtained is the number of ways we can get k upto the current index
+
+So we use a hashmap here where the key is the prefix sum and the value is the count of the prefix sum or the number of times the prefix sum has appeared upto a particular index
+
+
+```
 class Solution {
 public:
     int subarraySum(vector<int>& nums, int k) {
@@ -28,3 +35,4 @@ public:
         
     }
 };
+```
