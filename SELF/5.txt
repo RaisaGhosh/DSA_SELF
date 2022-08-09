@@ -1,0 +1,52 @@
+https://leetcode.com/problems/single-number/
+
+
+
+METHOD 1:
+USING XOR because 1^1^2 = 2 as 1&1 cancel each other out.
+
+```
+class Solution {
+public:
+    int singleNumber(vector<int>& nums) {
+        
+        int A = 0;                     //line 1
+        
+        for(auto it : nums)                     //line 2
+            A = A ^ it;                     //line 3
+        
+        return A;                     //line 4
+    
+    }
+};
+```
+
+Time Complexity = O(n)
+Space Complexity = O(1)
+
+METHOD 2:
+Using Set - Linearly traversing and if element is already in set, erase it, if not insert it. At the end only unrepeated element is present in set.
+
+```
+class Solution {
+public:
+    int singleNumber(vector<int>& nums) {
+        
+        set<int> A;
+        
+        for(auto it: nums){
+            
+            if(A.find(it) == A.end())
+                A.insert(it);
+            else
+                A.erase(it);
+        }
+        
+        return *(A.begin());    
+    
+    }
+};
+```
+
+Time Complexity = O(n)
+Space Complexity = O(n)

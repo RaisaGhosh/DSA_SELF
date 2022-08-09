@@ -1,0 +1,53 @@
+https://leetcode.com/problems/search-insert-position/
+
+
+
+
+Here I am using basic intuition.
+Using Binary Search I am trying to find if the element is present in the array or not. The variable x stores the last searched index where the target should be present(since eventually the binary search will boil down to an array of 1 element).
+Finally the target should be between the value of  2 consecutive array cells, so we are making a check if target > nums[x] return x+1 else return x.
+
+Base Cases:
+* If target is <  nums[0] , ub and x will eventually become -1
+* If target is >  nums[nums.size()-1] , then lb and x will eventually be nums.size()
+
+```
+class Solution {
+public:
+    int searchInsert(vector<int>& nums, int target) {
+        
+        int lb = 0,ub = nums.size()-1,x=0;
+        
+        while(lb<=ub){
+            
+            int mid = (lb+ub)/2;
+            
+            if(nums[mid] == target)     return mid;
+            
+            if(target < nums[mid]){
+                ub = mid-1;
+                x = ub;
+            }
+            else{
+                lb = mid+1;
+                x = lb;
+            }
+        }   
+        
+        
+        if(x < 0)   return 0;
+        if(x > nums.size()-1)   return nums.size();
+        
+        if(nums[x] < target && nums[x+1] > target) return x+1;  
+        
+        return x;
+        
+    }
+};
+```
+
+Time Complexity : O(log n)
+Space Complexity : O(1)
+
+[Runtime: 3 ms, faster than 94.49% of C++ online submissions for Search Insert Position.
+Memory Usage: 9.6 MB, less than 94.52% of C++ online submissions for Search Insert Position.]
