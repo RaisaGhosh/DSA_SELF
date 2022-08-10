@@ -1,0 +1,26 @@
+https://leetcode.com/problems/contains-duplicate/
+
+
+Since set can have repeated elements, set size has to be smaller than intial array size incase array has duplicate elements.
+
+```
+class Solution {
+public:
+    bool containsDuplicate(vector<int>& nums) {
+        
+        unordered_set<int> S;                    //line 1
+        
+        for(auto it : nums){                  //line 2
+            S.insert(it);                  //line 3
+        }
+        
+        if(S.size() < nums.size())     return true;                  //line 4
+        
+        return false;                  //line 5
+        
+    }
+};
+```
+
+Time Complexity : O(n)
+Space Complexity : O(n)
