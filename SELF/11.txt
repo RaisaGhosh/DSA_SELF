@@ -1,0 +1,48 @@
+https://leetcode.com/problems/maximum-units-on-a-truck/
+
+
+
+
+Using Greedy Algorithm:
+
+First sort the vector in the increasing order of the number of units per boxes.
+
+Then keep on adding no. of boxes * units per box tot the total until the total number of boxes count upto the truckSize.
+
+```
+class Solution {
+public:
+    
+    static bool sortcol(const vector<int>& v1, const vector<int>& v2)
+    {
+        return v1[1] > v2[1];
+    }
+    
+    int maximumUnits(vector<vector<int>>& boxTypes, int truckSize) {
+        
+        sort(boxTypes.begin(), boxTypes.end(), sortcol);
+        
+        int total = 0;
+        int i = 0;
+        
+        while(truckSize>0 && i<boxTypes.size()){
+            
+            if(truckSize >= boxTypes[i][0]){
+                total = total + boxTypes[i][0] * boxTypes[i][1];
+                truckSize = truckSize - boxTypes[i][0];
+            }
+            else{
+                total = total + truckSize * boxTypes[i][1];
+                truckSize = 0;
+            }
+            
+            ++i;   
+        }
+        
+        return total;
+    }
+};
+```
+
+Time Complexity : O(nlogn)
+Space Complexity : O(1)
