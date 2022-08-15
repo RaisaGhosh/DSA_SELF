@@ -1,0 +1,26 @@
+https://leetcode.com/problems/palindrome-number/
+
+
+
+
+```
+class Solution {
+public:
+    bool isPalindrome(int x) {
+        
+        long int y = 0;
+        int nums = x;
+        
+        while(nums > 0){
+            
+            y = (y * 10) + (nums%10);
+            nums = nums/10;
+            
+        }
+        
+        if(x == y) return true;
+        else return false;
+        
+    }
+};
+```
