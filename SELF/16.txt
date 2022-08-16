@@ -1,0 +1,99 @@
+METHOD 1
+
+```
+class Solution {
+public:
+    int romanToInt(string s) {
+        
+        unordered_map<char,int> hashMap;
+        hashMap['I'] = 1;
+        hashMap['V'] = 5;
+        hashMap['X'] = 10;
+        hashMap['L'] = 50;
+        hashMap['C'] = 100;
+        hashMap['D'] = 500;
+        hashMap['M'] = 1000;
+        
+        if(s.length() == 1) return hashMap[s.at(0)];
+        
+        int nums=0;
+        
+        for(int i=0; i <s.length() ; ++i){
+           
+            if(s.at(i) == 'I' && i+1 < s.length() && s.at(i+1) == 'V'){
+                
+                nums = nums + 4;
+                i = i+1;
+                continue;
+            }
+            
+            if(s.at(i) == 'I' && i+1 < s.length() && s.at(i+1) == 'X'){
+                nums = nums + 9;
+                i = i+1;
+                continue;
+            }
+            
+            if(s.at(i) == 'X' && i+1 < s.length() && s.at(i+1) == 'L'){
+                nums = nums + 40;
+                i = i+1;
+                continue;
+            }
+            
+            if(s.at(i) == 'X' && i+1 < s.length() && s.at(i+1) == 'C'){
+                nums = nums + 90;
+                i = i+1;
+                continue;
+            }
+            
+            if(s.at(i) == 'C' && i+1 < s.length() && s.at(i+1) == 'D'){
+                nums = nums + 400;
+                i = i+1;
+                continue;
+            }
+            
+            if(s.at(i) == 'C' && i+1 < s.length() && s.at(i+1) == 'M'){
+                nums = nums + 900;
+                i = i+1;
+                continue;
+            }
+            
+            nums = nums + hashMap[s.at(i)];
+            
+        }
+        
+        return nums;
+    }
+};
+```
+
+METHOD 2
+
+```
+class Solution {
+public:
+    int romanToInt(string s) {
+        
+        unordered_map<char,int> hashMap = {{'I',1}};
+        // hashMap['I'] = 1;
+        hashMap['V'] = 5;
+        hashMap['X'] = 10;
+        hashMap['L'] = 50;
+        hashMap['C'] = 100;
+        hashMap['D'] = 500;
+        hashMap['M'] = 1000;
+        
+        if(s.length() == 1) return hashMap[s.at(0)];
+        
+        int nums = hashMap[s[s.length()-1]];
+        
+        for(int i=s.length()-2; i >=0 ; --i){
+           
+            if(hashMap[s[i]] < hashMap[s[i+1]]) nums = nums - hashMap[s[i]];
+           else     nums = nums + hashMap[s[i]];
+            
+        }
+        
+        return nums;
+    }
+};
+```
