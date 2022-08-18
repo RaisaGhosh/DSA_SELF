@@ -1,0 +1,59 @@
+Here we are seeing if one of the people from 1 to n people have (n-1) people trusting them, then they are the town judge.
+
+We are doing --arr[ trust[i][0] ]because the town judge trusts no one so if they are present in the given array(vector<vector<int>>& trust) then although (n-1) people trust them, them being present will make that their trust score to {(n-1)-1}, which means he/she is not the town judge because he/she trusts someone.
+(We wouldn't have to do this if there was an assurity that there will always be a town judge which here is not.)
+
+C++ :
+```
+class Solution {
+public:
+    int findJudge(int n, vector<vector<int>>& trust) {
+        
+        vector<int> arr(n+1,0);
+        
+        for(int i=0 ; i<trust.size() ; ++i){
+            --arr[trust[i][0]];
+            ++arr[trust[i][1]];
+        }
+        
+        for(int i=1 ; i<=n ; ++i){
+            if(arr[i] == n-1)
+                return i;
+        }
+        
+        return -1;
+    }
+};
+```
+
+[Runtime: 155 ms, faster than 99.93% of C++ online submissions for Find the Town Judge.
+Memory Usage: 60.8 MB, less than 67.91% of C++ online submissions for Find the Town Judge.]
+
+
+JAVA :
+```
+class Solution {
+    public int findJudge(int n, int[][] trust) {
+        
+        int arr[] = new int[n+1];
+        
+        for(int i=0 ; i<trust.length ; ++i){
+            --arr[trust[i][0]];
+            ++arr[trust[i][1]];
+        }
+        
+        for(int i=1 ; i<=n ; ++i){
+            if(arr[i] == n-1)
+                return i;
+        }
+        
+        return -1;
+    }
+}
+```
+
+[Runtime: 2 ms, faster than 99.76% of Java online submissions for Find the Town Judge.
+Memory Usage: 68.8 MB, less than 73.96% of Java online submissions for Find the Town Judge.]
+
+Time Complexity : O(n)
+Space Complexity : O(n)

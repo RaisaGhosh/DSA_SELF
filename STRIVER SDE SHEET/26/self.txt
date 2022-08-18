@@ -1,0 +1,49 @@
+https://leetcode.com/problems/middle-of-the-linked-list/
+
+
+
+
+Find the size of the linked list and then find the middle.
+
+```
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode middleNode(ListNode head) {
+        
+        ListNode temp = head;
+        
+        int size = 1;
+        
+        while(temp.next != null){
+            temp = temp.next;
+            ++size;
+        }
+        
+        size = (int)(Math.ceil((size+1)/2.0));
+        
+        temp = head;
+        
+        for(int i = 1 ; i < size ; ++i){
+            temp = temp.next;
+        }
+        
+        return temp;
+        
+    }
+}
+```
+
+Time Complexity : O(n)
+Space Complexity : O(1)
+
+[Runtime: 1 ms, faster than 100.00% of Java online submissions for Middle of the Linked List.
+Memory Usage: 41.5 MB, less than 56.87% of Java online submissions for Middle of the Linked List.]

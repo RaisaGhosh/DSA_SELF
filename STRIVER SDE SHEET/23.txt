@@ -1,0 +1,36 @@
+https://www.interviewbit.com/problems/subarray-with-given-xor/
+
+```
+public class Solution {
+    public int solve(ArrayList<Integer> A, int B) {
+        
+         HashMap<Integer,Integer> hashMap = new HashMap<Integer,Integer>();
+        
+        int XOR = 0, count = 0;
+        
+        for(int it : A){
+            
+            XOR = XOR ^ it;
+            
+            if(XOR == B)    ++count;
+            
+            int Y = XOR ^ B;
+            
+            if(hashMap.get(Y) != null)
+                count = count + hashMap.get(Y);
+                
+            if(hashMap.get(XOR) != null)
+                hashMap.put(XOR,hashMap.get(XOR)+1);
+            else
+                hashMap.put(XOR,1);
+        }
+        
+        return count;
+        
+    }
+}
+
+```
+
+T.C -> O(nlogn)
+S.C -> O(n)
